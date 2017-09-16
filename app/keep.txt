@@ -1,0 +1,4 @@
+com/emery/test/dextest/MainActivity.class
+com/emery/test/dextest/MyApplication.class
+com/emery/test/dextest/TestA.class
+com/emery/test/dextest/TestB.class

@@ -1,0 +1,70 @@
+apply plugin: 'com.android.application'
+
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+
+    sourceSets{
+         main{
+             manifest.srcFile 'AndroidManifest.xml'
+             java.srcDirs=[]
+             res.srcDirs=[]
+             aidl.srcDirs=[]
+             jni.srcDirs=[]
+             assets.srcDirs=[]
+             resources.srcDirs=[]
+             renderscript.srcDirs=[]
+
+         }
+        androidTest.setRoot('')
+        test.setRoot('')
+    }
+
+
+    defaultConfig {
+        //manifest 属性
+        applicationId "com.emery.test.dextest"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        
+
+    }
+
+    productFlavors {
+        // Define separate dev and prod product flavors.
+        dev {
+            // dev utilizes minSDKVersion = 21 to allow the Android gradle plugin
+            // to pre-dex each module and produce an APK that can be tested on
+            // Android Lollipop without time consuming dex merging processes.
+            minSdkVersion 21
+        }
+        prod {
+            // The actual minSdkVersion for the application.
+            minSdkVersion 15
+        }
+    }
+
+    buildTypes {
+        release {
+            multiDexKeepFile getMultiDexKeepFile('keep.txt')
+         //   multiDexKeepFile file('keep.txt')
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:multidex:1.0.1'
+    testCompile 'junit:junit:4.12'
+}
